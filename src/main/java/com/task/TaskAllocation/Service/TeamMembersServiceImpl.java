@@ -2,18 +2,14 @@ package com.task.TaskAllocation.Service;
 
 import com.task.TaskAllocation.DTO.TeamMembersDTO;
 import com.task.TaskAllocation.Entities.TeamMembers;
-import com.task.TaskAllocation.Repository.TaskRepository;
 import com.task.TaskAllocation.Repository.TeamMembersRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
+@Service
 public class TeamMembersServiceImpl implements TeamMembersService{
-
-    @Autowired
-    TaskRepository taskRepository;
 
     @Autowired
     TeamMembersRepository teamMembersRepository;
@@ -24,7 +20,7 @@ public class TeamMembersServiceImpl implements TeamMembersService{
         teamMembersDTO.setId(0);
         BeanUtils.copyProperties(teamMembersDTO, teamMembers);
         TeamMembers teamMembers1 = teamMembersRepository.save(teamMembers);
-        return teamMembers1.getId() != teamMembers.getId();
+        return teamMembers1.getId() != teamMembersDTO.getId();
     }
 
     @Transactional
@@ -33,7 +29,7 @@ public class TeamMembersServiceImpl implements TeamMembersService{
         teamMembersDTO.setId(0);
         BeanUtils.copyProperties(teamMembersDTO, teamMembers);
         TeamMembers teamMembers1 = teamMembersRepository.save(teamMembers);
-        return teamMembers1.getId() == teamMembers.getId();
+        return teamMembers1.getId() == teamMembersDTO.getId();
     }
 
     @Transactional

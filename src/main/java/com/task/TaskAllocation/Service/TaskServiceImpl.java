@@ -8,10 +8,11 @@ import com.task.TaskAllocation.Repository.TeamMembersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+@Service
 public class TaskServiceImpl implements TaskService{
     @Autowired
     private TaskRepository taskRepository;
@@ -31,7 +32,7 @@ public class TaskServiceImpl implements TaskService{
             throw new EntityNotFoundException("Team Members not found for the given ID : " + taskDTO.getTeamMembers().getId());
         }
         Task task2 = taskRepository.save(task);
-        return task.getId() != task2.getId();
+        return taskDTO.getId() != task2.getId();
 
     }
 
@@ -47,7 +48,7 @@ public class TaskServiceImpl implements TaskService{
             throw new EntityNotFoundException("Team Members not found for the given ID : " + taskDTO.getTeamMembers().getId());
         }
         Task task2 = taskRepository.save(task);
-        return task.getId() == task2.getId();
+        return taskDTO.getId() == task2.getId();
     }
 
     @Transactional
