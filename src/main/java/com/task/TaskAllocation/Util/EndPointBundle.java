@@ -12,4 +12,5 @@ public class EndPointBundle {
     public static  final String GET = "/get/{id}";
 
 
+    public static final String GETALL = "/get-all";
 }

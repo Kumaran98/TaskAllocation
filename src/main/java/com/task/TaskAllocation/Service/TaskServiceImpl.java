@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -75,5 +77,17 @@ public class TaskServiceImpl implements TaskService{
             return taskDTO;
         }
         return null;
+    }
+
+    @Transactional
+    public List<TaskDTO> getAllTasks() {
+        List<Task> taskList = taskRepository.findAll();
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+        for (Task task : taskList) {
+            TaskDTO taskDTO = new TaskDTO();
+            BeanUtils.copyProperties(task , taskDTO);
+            taskDTOS.add(taskDTO);
+        }
+        return taskDTOS;
     }
 }

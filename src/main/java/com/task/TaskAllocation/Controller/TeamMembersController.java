@@ -1,5 +1,4 @@
 package com.task.TaskAllocation.Controller;
-
 import com.task.TaskAllocation.DTO.TeamMembersDTO;
 import com.task.TaskAllocation.Enum.RestApiResponseStatus;
 import com.task.TaskAllocation.Service.TeamMembersService;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(EndPointBundle.TEAMMEMBERS)
@@ -61,4 +62,14 @@ public class TeamMembersController {
                 ValidationMessages.BadRequest, null));
     }
 
+    @GetMapping(EndPointBundle.GETALL)
+    public ResponseEntity<ResponseWrapper<List<TeamMembersDTO>>> getAllTeamMembers () {
+        List<TeamMembersDTO> teamMembersDTOS = teamMembersService.getAllTeamMembers();
+        if (teamMembersDTOS != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseWrapper<>(RestApiResponseStatus.OK.getStatusCode(),
+                    ValidationMessages.Retrieved, teamMembersDTOS));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper<>(RestApiResponseStatus.NOT_FOUND.getStatusCode(),
+                ValidationMessages.BadRequest, null));
+    }
 }

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(EndPointBundle.TASK)
 public class TaskController {
@@ -59,6 +61,17 @@ public class TaskController {
                     ValidationMessages.Deleted, null));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseWrapper<>(RestApiResponseStatus.BAD_REQUEST.getStatusCode(),
+                ValidationMessages.BadRequest, null));
+    }
+
+    @GetMapping(EndPointBundle.GETALL)
+    public ResponseEntity<ResponseWrapper<List<TaskDTO>>> getAllTasks () {
+        List<TaskDTO> taskDTOS = taskService.getAllTasks();
+        if( taskDTOS != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseWrapper<>(RestApiResponseStatus.OK.getStatusCode(),
+                    ValidationMessages.Retrieved, taskDTOS));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper<>(RestApiResponseStatus.NOT_FOUND.getStatusCode(),
                 ValidationMessages.BadRequest, null));
     }
 

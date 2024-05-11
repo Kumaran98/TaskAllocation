@@ -1,5 +1,6 @@
 package com.task.TaskAllocation.Util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,5 +11,6 @@ import lombok.Setter;
 public class ResponseWrapper<T> {
     private int statusCode;
     private String statusMessage;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 }

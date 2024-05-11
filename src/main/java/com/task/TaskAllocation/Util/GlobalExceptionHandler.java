@@ -30,7 +30,12 @@ public class GlobalExceptionHandler {
                 .body(new ResponseWrapper<>(RestApiResponseStatus.BAD_REQUEST.getStatusCode(),
                         ValidationMessages.MethodArgumentNotValid, errorMessage.toString()));
     }
-
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseWrapper<?>> handleValidationExceptions(DataIntegrityViolationException e) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseWrapper<>(RestApiResponseStatus.BAD_REQUEST.getStatusCode(),
+                        ValidationMessages.DataIntegrityViolations, null));
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ResponseWrapper<?>> handleHttpRequestMethodNotSupportedException(
@@ -46,13 +51,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseWrapper<>(RestApiResponseStatus.BAD_REQUEST.getStatusCode()
                         , ValidationMessages.MISMATCH_INPUT , null));
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ResponseWrapper<?>> handleValidationExceptions(DataIntegrityViolationException e) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseWrapper<>(RestApiResponseStatus.BAD_REQUEST.getStatusCode(),
-                        ValidationMessages.DataIntegrityViolations, null));
     }
 
     @ExceptionHandler(Exception.class)
